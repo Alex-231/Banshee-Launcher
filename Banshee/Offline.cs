@@ -26,7 +26,9 @@ namespace Banshee
                 FileName = "cmd.exe",
                 RedirectStandardInput = true,
                 UseShellExecute = false,
-                CreateNoWindow = true
+#if !DEBUG
+                    CreateNoWindow = true
+#endif
             };
 
             Process minecraftProcess = new Process();
@@ -35,6 +37,10 @@ namespace Banshee
 
             minecraftProcess.StandardInput.WriteLine("cd \"" + Environment.CurrentDirectory + "\\Client\"");
             minecraftProcess.StandardInput.WriteLine("java -cp minecraft.jar;lwjgl.jar;lwjgl_util.jar -Djava.library.path=\"natives\" net.minecraft.client.Minecraft ");
+
+#if DEBUG
+            minecraftProcess.StandardInput.WriteLine("pause");
+#endif
 
             Environment.Exit(0);
         }
