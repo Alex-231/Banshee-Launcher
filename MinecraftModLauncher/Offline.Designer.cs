@@ -1,6 +1,6 @@
-﻿namespace MinecraftModLauncher
+﻿namespace Banshee
 {
-    partial class Username
+    partial class Offline
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Username));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Offline));
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.launchButton = new System.Windows.Forms.Button();
@@ -57,7 +57,6 @@
             // 
             // launchButton
             // 
-            this.launchButton.Enabled = false;
             this.launchButton.Location = new System.Drawing.Point(29, 139);
             this.launchButton.Name = "launchButton";
             this.launchButton.Size = new System.Drawing.Size(230, 32);
@@ -76,7 +75,7 @@
     " \"Player\" followed by a \r\nrandomly generated number.\r\n\r\n\r\n";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // Username
+            // Offline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -86,7 +85,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Username";
+            this.Name = "Offline";
             this.Text = "Select Username";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Username_FormClosing);
             this.ResumeLayout(false);

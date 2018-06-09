@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 
-namespace MinecraftModLauncher
+namespace Banshee
 {
     public partial class MainForm : Form
     {
@@ -13,9 +13,8 @@ namespace MinecraftModLauncher
         //But considering I had 9 users sign up, and 5 were tests, no biggie.
 #if DEBUG
         const string domain = @"http://localhost:8080/";
-#endif
-#if RELEASE
-        const string domain = @"http://mcauth-alex231.rhcloud.com/";
+#else
+        const string domain = @"http://banshee.alexnewark.co.uk/";
 #endif
 
         //Definately shouldn't be storing these here... What was I thinking!
@@ -31,7 +30,7 @@ namespace MinecraftModLauncher
         //Rename this!
         private void button1_Click(object sender, EventArgs e)
         {
-            Username username = new Username(installedVersion.ToString());
+            Offline username = new Offline(installedVersion.ToString());
             this.Hide();
             username.ShowDialog();
             this.Show();
@@ -54,18 +53,20 @@ namespace MinecraftModLauncher
                 string username = document.Remove(document.IndexOf(':'));
                 string session = document.Remove(0, document.IndexOf(':') + 1);
 
-                ProcessStartInfo launchInfo = new ProcessStartInfo();
-                launchInfo.FileName = "cmd.exe";
-                launchInfo.RedirectStandardInput = true;
-                launchInfo.UseShellExecute = false;
-                launchInfo.CreateNoWindow = true;
+                ProcessStartInfo launchInfo = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    RedirectStandardInput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
 
                 Process minecraftProcess = new Process();
                 minecraftProcess.StartInfo = launchInfo;
                 minecraftProcess.Start();
 
                 minecraftProcess.StandardInput.WriteLine("cd \"" + Environment.CurrentDirectory + "\\Client\"");
-                minecraftProcess.StandardInput.WriteLine("java -cp minecraft.jar;lwjgl.jar;lwjgl_util.jar -Djava.library.path=\"natives\" net.minecraft.client.Minecraft " + username + " " + session);
+                minecraftProcess.StandardInput.WriteLine("java -cp minecraft.jar;\"libs\\lwjgl.jar\";\"libs\\lwjgl_util.jar\" -Djava.library.path=\"natives\" net.minecraft.client.Minecraft " + username + " " + session);
 
                 Environment.Exit(0);
             }
@@ -103,12 +104,6 @@ namespace MinecraftModLauncher
                 File.Delete(Environment.CurrentDirectory + "\\Client\\" + System.AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "_old.exe"));
             }
 
-            //Retrieve the current version from the banshee site API... if you could call it an API...
-            string version = new WebClient().DownloadString(domain + "version");
-            //domain/version also returns a url, where to download the update. That's after a colon.
-            //Should have seperated these really.
-            latestVersion = new Version(version.Remove(version.IndexOf(':')));
-
             //If there's no version file, make one.
             //Should be using properties for this I imagine.
             if (!File.Exists(Environment.CurrentDirectory + "\\Client\\version"))
@@ -130,19 +125,25 @@ namespace MinecraftModLauncher
             {
                 if (installedVersion.ToString() == "0.0.0.0")
                 {
-                    MessageBox.Show("Offline, with no version installed.\nConnect to the internet to download and install Banshee.", "Banshee - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Banshee: Offline, with no version installed.\nConnect to the internet to download and install Banshee.", "Banshee - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Environment.Exit(0);
                 }
                 else
                 {
                     //This is rediculous! This is why I shouldn't have been storing the version here!
                     //This constructor needs eradicating.
-                    Username username = new Username(installedVersion.ToString());
+                    Offline username = new Offline(installedVersion.ToString());
                     this.Hide();
                     username.ShowDialog();
                     this.Close();
                 }
             }
+
+            //Retrieve the current version from the banshee site API... if you could call it an API...
+            string version = new WebClient().DownloadString(domain + "version");
+            //domain/version also returns a url, where to download the update. That's after a colon.
+            //Should have seperated these really.
+            latestVersion = new Version(version.Remove(version.IndexOf(':')));
 
             //...k
             webBrowser1.Url = new Uri(domain);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace MinecraftModLauncher
+namespace Banshee
 {
     static class Program
     {

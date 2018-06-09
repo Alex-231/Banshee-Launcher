@@ -1,7 +1,7 @@
 ﻿using System.IO.Compression;
 using System.IO;
 
-namespace MinecraftModLauncher
+namespace Banshee
 {
     public static class ZipArchiveExtensions
     {

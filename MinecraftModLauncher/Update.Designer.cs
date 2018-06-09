@@ -1,4 +1,4 @@
-﻿namespace MinecraftModLauncher
+﻿namespace Banshee
 {
     partial class Update
     {

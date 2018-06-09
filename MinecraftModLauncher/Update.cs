@@ -5,7 +5,7 @@ using System.Net;
 using System.IO;
 using System.IO.Compression;
 
-namespace MinecraftModLauncher
+namespace Banshee
 {
     public partial class Update : Form
     {

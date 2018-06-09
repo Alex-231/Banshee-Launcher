@@ -5,11 +5,11 @@ using System.Data;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace MinecraftModLauncher
+namespace Banshee
 {
-    public partial class Username : Form
+    public partial class Offline : Form
     {
-        public Username(string versionIn)
+        public Offline(string versionIn)
         {
             InitializeComponent();
 
@@ -21,10 +21,13 @@ namespace MinecraftModLauncher
         //But that wasn't an issue for such a small project.
         private void launchButton_Click(object sender, EventArgs e)
         {
-            ProcessStartInfo launchInfo = new ProcessStartInfo();
-            launchInfo.FileName = "cmd.exe";
-            launchInfo.RedirectStandardInput = true;
-            launchInfo.UseShellExecute = false;
+            ProcessStartInfo launchInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                RedirectStandardInput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
 
             Process minecraftProcess = new Process();
             minecraftProcess.StartInfo = launchInfo;
@@ -32,7 +35,6 @@ namespace MinecraftModLauncher
 
             minecraftProcess.StandardInput.WriteLine("cd \"" + Environment.CurrentDirectory + "\\Client\"");
             minecraftProcess.StandardInput.WriteLine("java -cp minecraft.jar;lwjgl.jar;lwjgl_util.jar -Djava.library.path=\"natives\" net.minecraft.client.Minecraft ");
-            minecraftProcess.StandardInput.WriteLine("pause");
 
             Environment.Exit(0);
         }
